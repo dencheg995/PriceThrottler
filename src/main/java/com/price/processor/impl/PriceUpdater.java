@@ -4,6 +4,7 @@ import com.price.processor.PriceDisplay;
 
 import java.util.Objects;
 import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -15,7 +16,9 @@ public class PriceUpdater extends RecursiveAction {
     private AtomicBoolean isFinish = new AtomicBoolean(false);
 
     public PriceUpdater(String ccyPair, double rate) {
-        this((int) (Math.random() * 2) + 1 == 1 ? new ScreenPriceDisplay() : new PrintOnPaperPriceDisplay(), ccyPair, rate);
+
+        // choose random display realisation for ccyPair
+        this(ThreadLocalRandom.current().nextInt((2 - 1) + 1) + 1 == 1 ? new ScreenPriceDisplay() : new PrintOnPaperPriceDisplay(), ccyPair, rate);
     }
 
     public PriceUpdater(PriceDisplay priceDisplay, String ccyPair, double rate) {
